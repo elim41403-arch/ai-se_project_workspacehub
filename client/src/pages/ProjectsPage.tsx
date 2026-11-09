@@ -7,6 +7,7 @@ import { taskService } from "../services/taskService";
 import type { ProjectWithTaskCount } from "../types/models";
 import { useAuth } from "../hooks/useAuth";
 import { canDeleteResources } from "../utils/permissions";
+import { buildProjectWithTaskCount } from "../utils/projectMetrics";
 
 export const ProjectsPage = () => {
   const { user } = useAuth();
@@ -26,11 +27,7 @@ export const ProjectsPage = () => {
         taskService.list(),
       ]);
       setProjects(
-        nextProjects.map((project) => ({
-          ...project,
-          taskCount: tasks.filter((task) => task.projectId === project._id)
-            .length,
-        })),
+        nextProjects.map((project) => buildProjectWithTaskCount(project, tasks)),
       );
     } catch (error) {
       setError(
@@ -52,7 +49,7 @@ export const ProjectsPage = () => {
 
     try {
       const project = await projectService.create(formState);
-      setProjects((current) => [{ ...project, taskCount: 0 }, ...current]);
+      setProjects((current) => [buildProjectWithTaskCount(project, []), ...current]);
       setFormState({ name: "", description: "" });
     } catch (submitError) {
       setError(
