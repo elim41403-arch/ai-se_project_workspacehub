@@ -86,7 +86,9 @@ export const TasksPage = () => {
       }));
     } catch (loadError) {
       setCreateError(
-        loadError instanceof Error ? loadError.message : "Unable to load tasks",
+        loadError instanceof Error
+          ? loadError.message
+          : "Unable to load tasks",
       );
     } finally {
       setLoading(false);
@@ -207,7 +209,7 @@ export const TasksPage = () => {
       <section className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
         <form
           className="rounded-3xl bg-white p-6 shadow-sm"
-          onSubmit={handleCreate}
+          onSubmit={(event) => void handleCreate(event)}
         >
           <h2 className="text-xl font-semibold text-ink">Create task</h2>
           <div className="mt-4 space-y-4">
@@ -366,11 +368,7 @@ export const TasksPage = () => {
                         className={`${selectClassName} disabled:bg-slate-100`}
                         disabled={!canEdit}
                         onChange={(event) =>
-                          handleTaskEdit(
-                            task._id,
-                            "status",
-                            event.target.value,
-                          )
+                          handleTaskEdit(task._id, "status", event.target.value)
                         }
                         style={selectCaretStyle}
                         value={formState?.status ?? task.status}
