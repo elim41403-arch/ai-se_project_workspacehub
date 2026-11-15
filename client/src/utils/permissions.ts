@@ -31,7 +31,3 @@ export const canEditBooking = (user: User | null, booking: Booking) => {
 export const canDeleteResources = (user: User | null) => {
   return isPrivilegedRole(user?.role);
 };
-
-export const canCreateProject = (user: User | null) => {
-  return isPrivilegedRole(user?.role);
-};

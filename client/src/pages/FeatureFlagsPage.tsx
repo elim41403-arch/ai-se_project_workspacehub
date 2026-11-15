@@ -44,9 +44,7 @@ export const FeatureFlagsPage = () => {
       />
       <div className="rounded-[20px] bg-white p-8 shadow-sm">
         <ul className="space-y-4">
-          {(Object.keys(flags) as (keyof FeatureFlags)[]).map((flagKey) => {
-            const enabled = flags[flagKey];
-            return (
+          {Object.entries(flags).map(([flagKey, enabled]) => (
             <li
               className="flex items-center justify-between rounded-[12px] border border-slate-200 p-[18px]"
               key={flagKey}
@@ -70,8 +68,7 @@ export const FeatureFlagsPage = () => {
                 }
               />
             </li>
-            );
-          })}
+          ))}
         </ul>
         {status ? (
           <p className="mt-4 text-sm text-slate-600">{status}</p>
